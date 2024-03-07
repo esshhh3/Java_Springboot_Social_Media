@@ -26,5 +26,7 @@ public class User {
 
     private List<Long> following = new ArrayList<>();
     private List<Long> followers = new ArrayList<>();
+    @ManyToMany // Many users can save many posts
+    private List<Post> savedPosts = new ArrayList<>();
 
 }
