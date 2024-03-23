@@ -26,11 +26,6 @@ public class UserController {
         return userServices.getUserById(userId);
     }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userServices.createUser(user);
-    }
-
     @PutMapping("{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {
         return userServices.editUser(id, user);
@@ -53,4 +48,11 @@ public class UserController {
         return userServices.searchUser(query);
     }
 
+    @GetMapping("/profile")  // access the token from the frontend request authorization header
+    public User getUserFromToken(@RequestHeader("Authorization") String jwt) {
+
+
+        System.out.println("jwt -> " + jwt);
+        return null;
+    }
 }
