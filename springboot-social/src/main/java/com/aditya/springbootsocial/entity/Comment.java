@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +12,18 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "posts")
-public class Post {
+@Entity(name = "comments")
+public class Comment {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String caption;
-    private String  image;
-    private String video;
+    private String content;
+
     @ManyToOne
     private User user;
-    @OneToMany
+
+    @ManyToMany
     private List<User> likedBy = new ArrayList<>();
-    @OneToMany
-    private List<Comment> comments = new ArrayList<>();
+
     private LocalDateTime createdAt;
 }
