@@ -72,17 +72,17 @@ public class UserServices implements ServiceInt{
     }
 
     @Override
-    public User followUser(Long id1, Long id2) throws Exception{
-        User user1 = getUserById(id1);
+    public User followUser(Long reqUserId, Long id2) throws Exception{
+        User reqUser = getUserById(reqUserId);
         User user2 = getUserById(id2);
 
-        user2.getFollowers().add(user1.getId());
-        user1.getFollowing().add(user2.getId());
+        user2.getFollowers().add(reqUser.getId());
+        reqUser.getFollowing().add(user2.getId());
 
-        userRepo.save(user1);
+        userRepo.save(reqUser);
         userRepo.save(user2);
 
-        return user1;
+        return reqUser;
     }
 
     @Override

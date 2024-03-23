@@ -1,8 +1,10 @@
 package com.aditya.springbootsocial.controller;
 
 import com.aditya.springbootsocial.entity.Post;
+import com.aditya.springbootsocial.entity.User;
 import com.aditya.springbootsocial.response.ApiResponse;
 import com.aditya.springbootsocial.services.PostService;
+import com.aditya.springbootsocial.services.UserServices;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,15 +20,20 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @PostMapping("/user/{userId}")
-    public ResponseEntity<Post> createPost(@RequestBody Post post, @PathVariable Long userId) throws Exception {
-        Post createdPost = postService.createPost(post, userId);
+    @Autowired
+    UserServices userServices;
+
+    @PostMapping()
+    public ResponseEntity<Post> createPost(@RequestHeader("Authorization") String jwt,@RequestBody Post post) throws Exception {
+        User reqUser = userServices.getUserFromToken(jwt);
+        Post createdPost = postService.createPost(post, reqUser.getId());
         return new ResponseEntity<Post>(createdPost, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("{postId}/user/{userId}")
-    public ResponseEntity<ApiResponse> deletePost(@PathVariable Long postId, @PathVariable Long userId) throws Exception {
-        String message = postService.deletePost(postId, userId);
+    @DeleteMapping("{postId}")
+    public ResponseEntity<ApiResponse> deletePost(@RequestHeader("Authorization") String jwt,@PathVariable Long postId) throws Exception {
+        User reqUser = userServices.getUserFromToken(jwt);
+        String message = postService.deletePost(postId, reqUser.getId());
         ApiResponse response = new ApiResponse(message, true);
         return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
     }
@@ -49,15 +56,17 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @PutMapping("save/{postId}/user/{userId}")
-    public ResponseEntity<Post> savePostById(@PathVariable Long postId, @PathVariable Long userId) throws Exception{
-        Post post = postService.savedPost(postId, userId);
+    @PutMapping("save/{postId}")
+    public ResponseEntity<Post> savePostById(@RequestHeader("Authorization") String jwt,@PathVariable Long postId) throws Exception{
+        User reqUser = userServices.getUserFromToken(jwt);
+        Post post = postService.savedPost(postId, reqUser.getId());
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @PutMapping("like/{postId}/user/{userId}")
-    public ResponseEntity<Post> likePost(@PathVariable Long postId, @PathVariable Long userId) throws Exception{
-        Post post = postService.likedPost(postId, userId);
+    @PutMapping("like/{postId}")
+    public ResponseEntity<Post> likePost(@RequestHeader("Authorization") String jwt ,@PathVariable Long postId) throws Exception{
+        User reqUser = userServices.getUserFromToken(jwt);
+        Post post = postService.likedPost(postId, reqUser.getId());
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 

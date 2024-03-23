@@ -26,9 +26,10 @@ public class UserController {
         return userServices.getUserById(userId);
     }
 
-    @PutMapping("{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userServices.editUser(id, user);
+    @PutMapping()
+    public User updateUser(@RequestHeader("Authorization") String jwt, @RequestBody User user) {
+        User reqUser = userServices.getUserFromToken(jwt);
+        return userServices.editUser(reqUser.getId(), user);
     }
 
     @DeleteMapping("{id}")
@@ -37,10 +38,10 @@ public class UserController {
         return "User deleted successfully";
     }
 
-    @PutMapping("/follow/{id1}/{id2}")
-    public User followUser(@PathVariable Long id1, @PathVariable Long id2) throws Exception {
-        User user = userServices.followUser(id1, id2);
-        return user;
+    @PutMapping("/follow/{id2}")
+    public User followUser(@RequestHeader("Authorization") String jwt, @PathVariable Long id2) throws Exception {
+        User reqUser = userServices.getUserFromToken(jwt);
+        return userServices.followUser(reqUser.getId(), id2);
     }
 
     @GetMapping("/search")
