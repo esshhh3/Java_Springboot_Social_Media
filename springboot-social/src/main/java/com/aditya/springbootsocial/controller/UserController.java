@@ -51,8 +51,8 @@ public class UserController {
     @GetMapping("/profile")  // access the token from the frontend request authorization header
     public User getUserFromToken(@RequestHeader("Authorization") String jwt) {
 
-
-        System.out.println("jwt -> " + jwt);
-        return null;
+        User user = userServices.getUserFromToken(jwt);
+        user.setPassword(null);
+        return user;
     }
 }

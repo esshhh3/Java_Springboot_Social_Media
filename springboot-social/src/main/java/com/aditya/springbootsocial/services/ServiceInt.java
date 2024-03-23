@@ -13,4 +13,5 @@ public interface ServiceInt {
     User followUser(Long id1, Long id2) throws Exception;
     User findUserByEmail(String email);
     List<User> searchUser(String query);
+    User getUserFromToken(String jwt);
 }

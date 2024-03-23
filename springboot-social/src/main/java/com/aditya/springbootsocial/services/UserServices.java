@@ -1,5 +1,6 @@
 package com.aditya.springbootsocial.services;
 
+import com.aditya.springbootsocial.config.JwtProvider;
 import com.aditya.springbootsocial.entity.User;
 import com.aditya.springbootsocial.repository.UserRepo;
 import lombok.AllArgsConstructor;
@@ -97,6 +98,13 @@ public class UserServices implements ServiceInt{
     @Override
     public List<User> searchUser(String query) {
         return userRepo.searchUser(query);
+    }
+
+    @Override
+    public User getUserFromToken(String jwt) {
+        String email = JwtProvider.getEmailFromJwtToken(jwt);
+        User user = findUserByEmail(email);
+        return user;
     }
 
 
