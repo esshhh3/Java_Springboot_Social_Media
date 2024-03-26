@@ -22,5 +22,7 @@ public class Chat {
     // each chat can have multiple users and each user can be in multiple chats
     @ManyToMany
     private List<User> users = new ArrayList<>();
+    @OneToMany(mappedBy = "chat")
+    private List<Message> messages = new ArrayList<>();
     private LocalDateTime timestamp;
 }
