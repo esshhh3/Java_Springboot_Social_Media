@@ -1,6 +1,7 @@
 package com.aditya.springbootsocial.controller;
 
 import com.aditya.springbootsocial.entity.User;
+import com.aditya.springbootsocial.exception.UserException;
 import com.aditya.springbootsocial.services.ServiceInt;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @PutMapping("/follow/{id2}")
-    public User followUser(@RequestHeader("Authorization") String jwt, @PathVariable Long id2) throws Exception {
+    public User followUser(@RequestHeader("Authorization") String jwt, @PathVariable Long id2) throws UserException {
         User reqUser = userServices.getUserFromToken(jwt);
         return userServices.followUser(reqUser.getId(), id2);
     }

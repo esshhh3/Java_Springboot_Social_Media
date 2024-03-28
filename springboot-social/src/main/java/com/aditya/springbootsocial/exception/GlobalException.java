@@ -10,6 +10,18 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class GlobalException {
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<ErrorDetails> UserExceptionHandler(UserException ex, WebRequest req){
+        ErrorDetails errorDetails = new ErrorDetails(ex.getMessage(), req.getDescription(false), LocalDateTime.now());
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ChatException.class)
+    public ResponseEntity<ErrorDetails> ChatExceptionHandler(ChatException ex, WebRequest req){
+        ErrorDetails errorDetails = new ErrorDetails(ex.getMessage(), req.getDescription(false), LocalDateTime.now());
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDetails> otherExceptionHandler(Exception ex, WebRequest req){
         ErrorDetails errorDetails = new ErrorDetails(ex.getMessage(), req.getDescription(false), LocalDateTime.now());

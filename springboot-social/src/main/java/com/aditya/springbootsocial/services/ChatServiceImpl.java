@@ -2,6 +2,7 @@ package com.aditya.springbootsocial.services;
 
 import com.aditya.springbootsocial.entity.Chat;
 import com.aditya.springbootsocial.entity.User;
+import com.aditya.springbootsocial.exception.ChatException;
 import com.aditya.springbootsocial.repository.ChatRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,12 @@ public class ChatServiceImpl implements ChatService{
     }
 
     @Override
-    public Chat getChatById(Long chatId) throws Exception {
+    public Chat getChatById(Long chatId) throws ChatException {
         Optional<Chat> chatOptional = chatRepo.findById(chatId);
         if(chatOptional.isPresent())
             return chatOptional.get();
         else
-            throw new Exception("Chat not found it with id "+chatId);
+            throw new ChatException("Chat not found it with id "+chatId);
     }
 
     @Override

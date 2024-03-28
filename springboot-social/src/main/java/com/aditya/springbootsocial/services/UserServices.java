@@ -2,6 +2,7 @@ package com.aditya.springbootsocial.services;
 
 import com.aditya.springbootsocial.config.JwtProvider;
 import com.aditya.springbootsocial.entity.User;
+import com.aditya.springbootsocial.exception.UserException;
 import com.aditya.springbootsocial.repository.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class UserServices implements ServiceInt{
     }
 
     @Override
-    public User followUser(Long reqUserId, Long id2) throws Exception{
+    public User followUser(Long reqUserId, Long id2) throws UserException {
         User reqUser = getUserById(reqUserId);
         User user2 = getUserById(id2);
 

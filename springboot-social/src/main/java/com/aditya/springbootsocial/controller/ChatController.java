@@ -2,6 +2,7 @@ package com.aditya.springbootsocial.controller;
 
 import com.aditya.springbootsocial.entity.Chat;
 import com.aditya.springbootsocial.entity.User;
+import com.aditya.springbootsocial.exception.ChatException;
 import com.aditya.springbootsocial.request.CreateChatRequest;
 import com.aditya.springbootsocial.services.ChatService;
 import com.aditya.springbootsocial.services.ServiceInt;
@@ -34,7 +35,7 @@ public class ChatController {
     }
 
     @GetMapping("{chatId}")
-    public Chat findChatById(@PathVariable Long chatId) throws Exception {
+    public Chat findChatById(@PathVariable Long chatId) throws ChatException {
         return chatService.getChatById(chatId);
     }
 }
