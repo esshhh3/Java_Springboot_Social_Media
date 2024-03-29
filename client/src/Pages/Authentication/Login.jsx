@@ -8,13 +8,14 @@ const initialValues = {
   email: "",
   password: "",
 };
-const validationSchema = {
+const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string().min(6,"Password must be at least 6 characters").required("Password is required"),
-};
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
 
 function Login() {
-  const [formValue, setFormValue] = useState();
 
   function handleSubmit(values) {
     console.log("handle submit", values);
@@ -24,7 +25,7 @@ function Login() {
     <>
       <Formik
         onSubmit={handleSubmit}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
         initialValues={initialValues}
       >
         <Form className="space-y-5">
