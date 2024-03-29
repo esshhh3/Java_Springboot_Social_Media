@@ -3,8 +3,10 @@ import {Grid,Card} from "@mui/material";
 import React from 'react';
 import Login from "./Login";
 import Register from "./Register";
+import {useSelector} from "react-redux";
 
 function Authentication() {
+
   return (
     <div>
       <Grid container>

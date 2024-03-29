@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { TextField, Button } from "@mui/material";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../state/Auth/authActions";
 
 // initial values/field required for authentication 
 const initialValues = {
@@ -17,8 +20,11 @@ const validationSchema = Yup.object({
 
 function Login() {
 
+  const dispatch = useDispatch();
+
   function handleSubmit(values) {
     console.log("handle submit", values);
+    dispatch(loginUser({ data: values }));
   }
 
   return (

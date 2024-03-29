@@ -8,6 +8,8 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../state/Auth/authActions";
 
 // initial values/field required for authentication 
 const initialValues = {
@@ -23,11 +25,13 @@ const validationSchema = {
 };
 
 function Register() {
+  const dispatch = useDispatch();
   const [gender, setGender] = useState("");
 
   function handleSubmit(values) {
     values.gender = gender;
     console.log("handle submit", values);
+    dispatch(registerUser({ data: values }));
   }
   
   function handleChange(event) {
