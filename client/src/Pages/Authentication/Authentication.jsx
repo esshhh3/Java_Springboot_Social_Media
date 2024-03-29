@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import {Grid,Card} from "@mui/material";
 import React from 'react';
-import Login from "../Authentication/Login";
+import Login from "./Login";
+import Register from "./Register";
 
 function Authentication() {
   return (
