@@ -1,16 +1,9 @@
 import {
-  Card,
   CardHeader,
   Avatar,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
   Button
 } from "@mui/material";
 import { red } from "@mui/material/colors";
-import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 function PopularUserCard() {
   return (
