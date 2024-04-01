@@ -4,7 +4,7 @@ import Feed from "../components/Feed";
 import Reels from "../components/Reels";
 import CreateReelsForm from "../components/CreateReelsForm";
 import HomeRight from "../components/HomeRight";
-import Profile from "../components/Profile";
+import Profile from "./Profile";
 import { useLocation } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 
@@ -23,22 +23,24 @@ function HomePage() {
         <Grid
           item
           xs={12}
-          lg={6}
+          lg={location.pathname === "/" ? 6 : 9}
           className="px-5 flex justify-center" // Center content takes full width on smaller screens
         >
           <Routes>
-            <Route path="/feed" element={<Feed />} />
+            <Route path="/" element={<Feed />} />
             <Route path="/reels" element={<Reels />} />
             <Route path="/create-reels" element={<CreateReelsForm />} />
             <Route path="/profile/:id" element={<Profile />} />
           </Routes>
         </Grid>
 
-        <Grid item xs={12} lg={3} className="relative">
-          <div className="sticky top-0 w-full">
-            <HomeRight />
-          </div>
-        </Grid>
+        {location.pathname === "/" && (
+          <Grid item xs={12} lg={3} className="relative">
+            <div className="sticky top-0 w-full">
+              <HomeRight />
+            </div>
+          </Grid>
+        )}
       </Grid>
     </div>
   );
