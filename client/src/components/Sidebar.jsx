@@ -46,7 +46,7 @@ function Sidebar() {
             <Avatar src="https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-859.jpg?w=826&t=st=1711805221~exp=1711805821~hmac=8000422d501b4b12b39e9fcfc545165eb3c23276533c4ab4637b81ec9b88386c" />
             <div>
               <p className="font-bold text-xl">Aditya Kundu</p>
-              <p className="opacity-70">Aditya</p>
+              <p className="opacity-70">@adityadhanarajkundu</p>
             </div>
           </div>
           <Button
