@@ -1,10 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { loginUser, registerUser } from './Auth/authActions';
+import { loginUser, registerUser, getUserProfile, updateUserProfile } from './Auth/authActions';
 
 const initialState = {
     jwt: null,
     loading: false,
     error: null,
+    user: null,
 };
 
 const authSlice = createSlice({
@@ -28,6 +29,24 @@ const authSlice = createSlice({
           return { ...state, loading: false, jwt: action.payload, error: null };
         });
         builder.addCase(loginUser.rejected, (state, action) => {
+          return { ...state, loading: false, error: action.payload };
+        });
+        builder.addCase(getUserProfile.pending, (state, action) => {
+          return { ...state, loading: true, error: null };
+        });
+        builder.addCase(getUserProfile.fulfilled, (state, action) => {
+          return { ...state, loading: false, user: action.payload, error: null };
+        });
+        builder.addCase(getUserProfile.rejected, (state, action) => {
+          return { ...state, loading: false, error: action.payload };
+        });
+        builder.addCase(updateUserProfile.pending, (state, action) => {
+          return { ...state, loading: true, error: null };
+        });
+        builder.addCase(updateUserProfile.fulfilled, (state, action) => {
+          return { ...state, loading: false, user: action.payload, error: null };
+        });
+        builder.addCase(updateUserProfile.rejected, (state, action) => {
           return { ...state, loading: false, error: action.payload };
         });
     },
