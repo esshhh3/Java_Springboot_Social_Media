@@ -4,6 +4,7 @@ import React from 'react';
 import Login from "./Login";
 import Register from "./Register";
 import {useSelector} from "react-redux";
+import {Route, Routes} from "react-router-dom";
 
 function Authentication() {
 
@@ -27,7 +28,12 @@ function Authentication() {
                   Connecting Lives, Sharing Stories: Your World, Your Way
                 </p>
               </div>
-              <Login />
+
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Routes>
             </Card>
           </div>
         </Grid>

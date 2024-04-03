@@ -5,6 +5,7 @@ import { TextField, Button } from "@mui/material";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../state/Auth/authActions";
+import {useNavigate} from "react-router-dom";
 
 // initial values/field required for authentication 
 const initialValues = {
@@ -21,6 +22,7 @@ const validationSchema = Yup.object({
 function Login() {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function handleSubmit(values) {
     console.log("handle submit", values);
@@ -73,6 +75,11 @@ function Login() {
           <Button sx={{padding: ".8rem 0rem"}} fullWidth type="submit" variant="contained" color="primary">Login</Button>
         </Form>
       </Formik>
+
+      <div className="flex gap-2 items-center justify-center pt-5">
+        <p>Don't have acount?</p>
+        <Button onClick={()=> navigate("/register")}>Register</Button>
+      </div>
     </>
   );
 }

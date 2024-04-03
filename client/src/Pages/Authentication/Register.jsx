@@ -10,6 +10,7 @@ import {
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../state/Auth/authActions";
+import { useNavigate } from "react-router-dom";
 
 // initial values/field required for authentication 
 const initialValues = {
@@ -19,13 +20,17 @@ const initialValues = {
   password: "",
   gender: "",
 };
-const validationSchema = {
+const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string().min(6,"Password must be at least 6 characters").required("Password is required"),
-};
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
 
 function Register() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   const [gender, setGender] = useState("");
 
   function handleSubmit(values) {
@@ -42,7 +47,7 @@ function Register() {
     <>
       <Formik
         onSubmit={handleSubmit}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
         initialValues={initialValues}
       >
         <Form className="space-y-5">
@@ -151,6 +156,11 @@ function Register() {
           </Button>
         </Form>
       </Formik>
+
+      <div className="flex gap-2 items-center justify-center pt-5">
+        <p>Already have acount?</p>
+        <Button onClick={() => navigate("/login")}>Login</Button>
+      </div>
     </>
   );
 }
