@@ -38,8 +38,8 @@ function Feed() {
         <div className="flex justify-between items-center">
           <Avatar />
           <input
-            readOnly
-            className="ml-5 h-10 outline-none w-full bg-slate-300 rounded-full px-5 bg-transparent border border-[#3b4054]"
+            // readOnly
+            className="ml-5 h-10 outline-none w-full bg-slate-300 rounded-full px-5 bg-transparent border border-[#3b4054] cursor-text"
             type="text"
             placeholder="Enter text..."
           />

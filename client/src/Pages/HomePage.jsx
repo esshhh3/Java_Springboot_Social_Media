@@ -1,15 +1,12 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
-import Feed from "../components/Feed";
-import Reels from "../components/Reels";
-import CreateReelsForm from "../components/CreateReelsForm";
 import HomeRight from "../components/HomeRight";
-import Profile from "./Profile";
 import { useLocation } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 function HomePage() {
   const location = useLocation();
+  console.log("Current pathname:", location.pathname);
 
   return (
     <div className="px-20">
@@ -23,20 +20,15 @@ function HomePage() {
         <Grid
           item
           xs={12}
-          lg={location.pathname === "/" ? 6 : 9}
+          lg={location.pathname.startsWith("/home/profile") ? 9 : 6}
           className="px-5 flex justify-center" // Center content takes full width on smaller screens
         >
-          <Routes>
-            <Route path="/" element={<Feed />} />
-            <Route path="/reels" element={<Reels />} />
-            <Route path="/create-reels" element={<CreateReelsForm />} />
-            <Route path="/profile/:id" element={<Profile />} />
-          </Routes>
+          <Outlet />
         </Grid>
 
-        {location.pathname === "/" && (
-          <Grid item xs={12} lg={3} className="relative">
-            <div className="sticky top-0 w-full">
+        {!location.pathname.startsWith("/home/profile") && (
+          <Grid item xs={12} lg={3}>
+            <div>
               <HomeRight />
             </div>
           </Grid>

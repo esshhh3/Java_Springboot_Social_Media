@@ -28,7 +28,7 @@ function Profile() {
   };
 
   return (
-    <Card className="my-10 w-[90%]">
+    <Card className="my-10 w-[100%]">
       <div className="rounded-md">
         <div className="h-[15rem]">
           <img
