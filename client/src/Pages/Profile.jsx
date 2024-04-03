@@ -6,6 +6,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import PostCard from "../components/PostCard";
 import UserReelsCard from "../components/UserReelsCard";
+import {useSelector} from "react-redux";
 
 const tabs = [
   { value: "post", name: "Posts" },
@@ -20,12 +21,15 @@ const saved = [1, 2, 3, 4, 5];
 
 function Profile() {
   const { id } = useParams();
+  console.log(id);
 
   const [value, setValue] = useState("post");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <Card className="my-10 w-[100%]">
@@ -57,8 +61,10 @@ function Profile() {
 
         <div className="p-5">
           <div>
-            <h1 className="py-1 font-bold text-xl">Aditya Kundu</h1>
-            <p>@adityadhanarajkundu</p>
+            <h1 className="py-1 font-bold text-xl">
+              {user.fname + " " + user.lname}
+            </h1>
+            <p>@{user.fname.toLowerCase() + "_" + user.lname.toLowerCase()}</p>
           </div>
 
           <div className="flex gap-5 items-center  py-3">

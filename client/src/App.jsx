@@ -2,22 +2,30 @@ import Authentication from "./Pages/Authentication/Authentication";
 import HomePage from "./Pages/HomePage";
 import Message from "./Pages/Message";
 import { Routes, Route } from "react-router-dom";
+// import Reels from "./components/Reels";
+// import CreateReelsForm from "./components/CreateReelsForm";
+// import Profile from "./Pages/Profile";
+// import Login from "./Pages/Authentication/Login";
+// import Register from "./Pages/Authentication/Register";
+import {useSelector, useDispatch} from "react-redux";
+import { getUserProfile } from "./state/Auth/authActions";
+import { useEffect } from "react";
 import Feed from "./components/Feed";
-import Reels from "./components/Reels";
-import CreateReelsForm from "./components/CreateReelsForm";
-import Profile from "./Pages/Profile";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(getUserProfile(localStorage.getItem("token")));
+  },[localStorage.getItem("token")]);
+  
+  const user = useSelector((state)=>state.auth.user);
+  console.log(user)
+  
   return (
     <Routes>
-      <Route index element={<Authentication />} />
+      <Route index path="/*" element={user? <HomePage/> : <Authentication />} />
       <Route path="/message" element={<Message />} />
-      <Route path="/home" element={<HomePage />}>
-        <Route index element={<Feed />} />
-        <Route path="/home/reels" element={<Reels />} />
-        <Route path="/home/create-reels" element={<CreateReelsForm />} />
-        <Route path="/home/profile/:id" element={<Profile />} />
-      </Route>
     </Routes>
   );
 }

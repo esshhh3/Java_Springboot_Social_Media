@@ -1,17 +1,16 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { TextField, Button } from "@mui/material";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../state/Auth/authActions";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-// initial values/field required for authentication 
 const initialValues = {
   email: "",
   password: "",
 };
+
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
@@ -20,21 +19,34 @@ const validationSchema = Yup.object({
 });
 
 function Login() {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function handleSubmit(values) {
-    console.log("handle submit", values);
-    dispatch(loginUser({ data: values }));
-  }
+  const handleSubmit = async (values) => {
+    try {
+      console.log("handle submit", values);
+      const response = await dispatch(loginUser({ data: values }));
+
+      // Check if login was successful and token was generated
+      if (response.payload.token) {
+        // Navigate to home page
+        navigate("/home/feed");
+      } else {
+        // Handle unsuccessful login
+        console.log("Login unsuccessful");
+      }
+    } catch (error) {
+      // Handle error
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <>
       <Formik
         onSubmit={handleSubmit}
-        validationSchema={validationSchema}
         initialValues={initialValues}
+        // validationSchema={validationSchema}
       >
         <Form className="space-y-5">
           <div className="space-y-5">
@@ -72,13 +84,21 @@ function Login() {
               />
             </div>
           </div>
-          <Button sx={{padding: ".8rem 0rem"}} fullWidth type="submit" variant="contained" color="primary">Login</Button>
+          <Button
+            sx={{ padding: ".8rem 0rem" }}
+            fullWidth
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            Login
+          </Button>
         </Form>
       </Formik>
 
       <div className="flex gap-2 items-center justify-center pt-5">
-        <p>Don't have acount?</p>
-        <Button onClick={()=> navigate("/register")}>Register</Button>
+        <p>Don't have an account?</p>
+        <Button onClick={() => navigate("/register")}>Register</Button>
       </div>
     </>
   );

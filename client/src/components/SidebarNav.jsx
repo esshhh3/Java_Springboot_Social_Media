@@ -16,12 +16,12 @@ export const navigationMenu = [
   {
     title: "Reels",
     icon: <ExploreRoundedIcon />,
-    path: "/",
+    path: "/home/reels",
   },
   {
     title: "Create Reels",
     icon: <ControlPointRoundedIcon />,
-    path: "/",
+    path: "/home/create-reels",
   },
   {
     title: "Notifications",
@@ -31,7 +31,7 @@ export const navigationMenu = [
   {
     title: "Message",
     icon: <MessageRoundedIcon />,
-    path: "/",
+    path: "/message",
   },
   {
     title: "Lists",
@@ -46,6 +46,6 @@ export const navigationMenu = [
   {
     title: "Profile",
     icon: <AccountCircleRoundedIcon />,
-    path: "/",
+    path: "/home/profile",
   },
 ];
