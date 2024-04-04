@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import PostCard from "../components/PostCard";
 import UserReelsCard from "../components/UserReelsCard";
 import {useSelector} from "react-redux";
+import ProfileModal from "../components/ProfileModal";
 
 const tabs = [
   { value: "post", name: "Posts" },
@@ -22,6 +23,10 @@ const saved = [1, 2, 3, 4, 5];
 function Profile() {
   const { id } = useParams();
   console.log(id);
+
+  const [open, setOpen] = useState(false);
+  const handleOpenProfileModal = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const [value, setValue] = useState("post");
 
@@ -49,7 +54,7 @@ function Profile() {
           />
 
           {true ? (
-            <Button variant="outlined" sx={{ borderRadius: "20px" }}>
+            <Button variant="outlined" sx={{ borderRadius: "20px" }} onClick={handleOpenProfileModal}>
               Edit Profile
             </Button>
           ) : (
@@ -131,6 +136,9 @@ function Profile() {
           </div>
         </section>
       </div>
+      <section>
+        <ProfileModal open={open} handleClose={handleClose} />
+      </section>
     </Card>
   );
 }
