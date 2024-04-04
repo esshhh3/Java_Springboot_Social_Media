@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
   const auth = useSelector((state) => state.auth);
-  console.log(auth);
 
   const navigate = useNavigate();
 

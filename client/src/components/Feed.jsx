@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {Avatar, Card, IconButton} from '@mui/material';
 import AddIcon from "@mui/icons-material/Add";
 import StoryCircle from './StoryCircle';
@@ -5,6 +6,7 @@ import PostCard from './PostCard';
 import ImageIcon from "@mui/icons-material/Image";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import ArticleIcon from "@mui/icons-material/Article";
+import CreatePostModal from './CreatePostModal';
 
 // dummy array to iterate over
 const stories = [1, 2, 3, 4, 5];
@@ -12,9 +14,13 @@ const posts = [1, 2, 3, 4, 5];
 
 function Feed() {
 
+  const [open, setOpen] = useState(false);
+
   function handleOpenCreatePostModel(){
-    console.log("open post model");
+    setOpen(true);
   }
+
+  const handleCloseCreatePostModel = () => setOpen(false);
   
   return (
     <div className="px-20">
@@ -38,7 +44,8 @@ function Feed() {
         <div className="flex justify-between items-center">
           <Avatar />
           <input
-            // readOnly
+            readOnly
+            onClick={handleOpenCreatePostModel}
             className="ml-5 h-10 outline-none w-full bg-slate-300 rounded-full px-5 bg-transparent border border-[#3b4054] cursor-text"
             type="text"
             placeholder="Enter text..."
@@ -75,7 +82,9 @@ function Feed() {
         {posts.map((post) => <PostCard key={post} />)}
 
       </div>
-
+          <div>
+            <CreatePostModal open={open} handleClose={handleCloseCreatePostModel} />
+          </div>
     </div>
   );
 }

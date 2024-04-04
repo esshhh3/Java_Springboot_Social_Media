@@ -17,9 +17,6 @@ function HomePage() {
   const location = useLocation();
   console.log("Current pathname:", location.pathname);
 
-  const user = useSelector((state) => state.auth.user);
-  console.log("User:", user);
-
   useEffect(() => {
     dispatch(getUserProfile(localStorage.getItem("token")));
   }, []);
