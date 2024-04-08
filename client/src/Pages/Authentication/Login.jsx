@@ -4,7 +4,7 @@ import { TextField, Button } from "@mui/material";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../state/Auth/authActions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 
 const initialValues = {
   email: "",
@@ -30,7 +30,7 @@ function Login() {
       // Check if login was successful and token was generated
       if (response.payload.token) {
         // Navigate to home page
-        navigate("/home/feed");
+        return redirect("/home/feed");
       } else {
         // Handle unsuccessful login
         console.log("Login unsuccessful");

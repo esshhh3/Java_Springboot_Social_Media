@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Avatar, Card, IconButton} from '@mui/material';
 import AddIcon from "@mui/icons-material/Add";
 import StoryCircle from './StoryCircle';
@@ -7,6 +7,9 @@ import ImageIcon from "@mui/icons-material/Image";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import ArticleIcon from "@mui/icons-material/Article";
 import CreatePostModal from './CreatePostModal';
+import {useDispatch} from 'react-redux';
+import { getAllPosts } from "../state/Post/post.action";
+import { useSelector } from 'react-redux';
 
 // dummy array to iterate over
 const stories = [1, 2, 3, 4, 5];
@@ -16,11 +19,22 @@ function Feed() {
 
   const [open, setOpen] = useState(false);
 
+  const dispatch = useDispatch();
+
   function handleOpenCreatePostModel(){
     setOpen(true);
   }
 
+  const comments = useSelector((state) => state.post.comments);
+
   const handleCloseCreatePostModel = () => setOpen(false);
+
+  //get all the posts 
+  useEffect(() => {
+    dispatch(getAllPosts());
+  }, [comments]);
+
+    const posts = useSelector((state) => state.post.posts);
   
   return (
     <div className="px-20">
@@ -79,7 +93,7 @@ function Feed() {
 
       <div className='mt-5 space-y-5'>
         
-        {posts.map((post) => <PostCard key={post} />)}
+        {posts.map((post,index) => <PostCard key={index} post={post} />)}
 
       </div>
           <div>

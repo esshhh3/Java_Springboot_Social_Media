@@ -11,12 +11,14 @@ import {useSelector, useDispatch} from "react-redux";
 import { getUserProfile } from "./state/Auth/authActions";
 import { useEffect } from "react";
 import Feed from "./components/Feed";
+import { getAllPosts } from "./state/Post/post.action";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(()=>{
     dispatch(getUserProfile(localStorage.getItem("token")));
+    dispatch(getAllPosts());
   },[localStorage.getItem("token")]);
   
   const user = useSelector((state)=>state.auth.user);

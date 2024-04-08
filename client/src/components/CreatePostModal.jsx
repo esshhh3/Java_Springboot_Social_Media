@@ -8,6 +8,8 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { uploadToCloudinary } from "../utils/uploadToCloudinary";
+import {useDispatch} from 'react-redux';
+import { createPost } from "../state/Post/post.action";
 
 const style = {
   position: "absolute",
@@ -27,6 +29,8 @@ function CreatePostModal({ open, handleClose }) {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
         caption: "",
@@ -35,6 +39,7 @@ function CreatePostModal({ open, handleClose }) {
     },
     onSubmit: (values) => {
         console.log("Formik Values: ", values);
+        dispatch(createPost({data:values}));
     },
   });
 

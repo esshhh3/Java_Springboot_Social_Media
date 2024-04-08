@@ -1,4 +1,13 @@
-import { Card, CardHeader, Avatar, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
+import {
+  Card,
+  CardHeader,
+  Avatar,
+  CardMedia,
+  CardContent,
+  Typography,
+  CardActions,
+  Divider,
+} from "@mui/material";
 import { red } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -8,8 +17,39 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createComment, likePost } from "../state/Post/post.action";
+import { useSelector } from "react-redux";
 
-function PostCard() {
+function PostCard({ post }) {
+
+  const currentUserId = useSelector((state) => state.auth.user.id);
+  
+  const [showComments, setShowComments] = useState(false);
+  const [isLiked, setIsLiked] = useState(post.likedBy.some((user)=> user.id === currentUserId));
+
+  const dispatch = useDispatch();
+
+  function handleCreateComment(content) {
+    const reqData = {
+      postId: post.id,
+      data: {
+        content,
+      },
+    };
+    dispatch(createComment(reqData));
+  }
+
+  function handleLikePost() {
+    dispatch(likePost(post.id)).then(()=>{
+      setIsLiked(!isLiked);
+    }).catch((error)=>{
+      console.error("Error Liking Post",error);
+    });
+  }
+
   return (
     <Card className="">
       <CardHeader
@@ -23,16 +63,18 @@ function PostCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Soumodip Deb"
-        subheader="@soumodipdeb"
+        title={post.user.fname + " " + post.user.lname}
+        subheader={
+          "@" +
+          post.user.fname.toLowerCase() +
+          "_" +
+          post.user.lname.toLowerCase()
+        }
       />
 
-      <CardMedia
-        component="img"
-        height="194"
-        image="https://images.unsplash.com/photo-1549480017-d76466a4b7e8?q=80&w=2056&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="tiger"
-      />
+      {post.image && (
+        <CardMedia component="img" height="100" image={post.image} alt="" />
+      )}
 
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -44,12 +86,16 @@ function PostCard() {
 
       <CardActions className="flex justify-between" disableSpacing>
         <div>
-          <IconButton>
+          <IconButton onClick={handleLikePost}>
             {/* like dislike toggle */}
-            {true ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+            {isLiked ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
           </IconButton>
 
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              setShowComments(!showComments);
+            }}
+          >
             <ChatBubbleIcon />
           </IconButton>
 
@@ -62,8 +108,46 @@ function PostCard() {
           {true ? <BookmarksIcon /> : <BookmarksOutlinedIcon />}
         </IconButton>
       </CardActions>
+
+      {showComments && (
+        <section>
+          <div className="flex items-center space-x-5 mx-3 my-5">
+            <Avatar sx={{}} />
+            <input
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleCreateComment(e.target.value);
+                  console.log(e.target.value);
+                  e.target.value = "";
+                }
+              }}
+              type="text"
+              className="w-full outline-none bg-transparent border border-[#3b4054] rounded-full px-5 py-2"
+              placeholder="Write a comment..."
+            />
+          </div>
+          <Divider />
+          <div className="mx-3 my-5 space-y-2  text-xs">
+            {post.comments.map((comment, index) => (
+              <div className="flex items-center space-x-5" key={index}>
+                <Avatar
+                  sx={{ height: "2rem", width: "2rem", fontSize: ".8rem" }}
+                >
+                  {comment.user.fname[0] + comment.user.lname[0]}
+                </Avatar>
+
+                <p>{comment.content}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </Card>
   );
 }
+
+PostCard.propTypes = {
+  post: PropTypes.object.isRequired,
+};
 
 export default PostCard;
