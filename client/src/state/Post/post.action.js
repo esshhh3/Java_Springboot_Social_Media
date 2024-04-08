@@ -60,3 +60,23 @@ export const likePost = createAsyncThunk(
         }
     }
 );
+
+
+// Comments API actions
+
+export const createComment = createAsyncThunk(
+    "post/createComment",
+    async (reqData, { rejectWithValue }) => {
+        try {
+            const { data } = await api.post(
+              `${API_BASE_URL}/api/comments/post/${reqData.postId}`,
+              reqData.data
+            );
+            console.log("Comment Created",data);
+            return data;
+        } catch (error) {
+            console.log(error.response.data);
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
