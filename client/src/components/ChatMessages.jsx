@@ -1,20 +1,31 @@
-function ChatMessages() {
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+
+function ChatMessages({text}) {
+
+  const { auth, message } = useSelector((state) => state);
+  const isReqUserMessage = auth.user?.id === text.user?.id;
+  
   return (
     <div
-      className={`flex ${true ? "justify-start" : "justify-end"} text-white`}
+      className={`flex ${!isReqUserMessage ? "justify-start" : "justify-end"} text-white`}
     >
       <div
         className={`p-1 ${
-          true ? "rounded-md" : "px-5 rounded-full"
+          text.image ? "rounded-md" : "px-5 rounded-full"
         } bg-[#191c29]`}
       >
-        {true && (
-          <img className="w-[15rem] h-[17rem] object-cover rounded-md" src="https://images.unsplash.com/photo-1578632749014-ca77efd052eb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGFuaW1lfGVufDB8fDB8fHww" />
+        {text.image && (
+          <img className="w-[15rem] h-[17rem] object-cover rounded-md" src={text.image} />
         )}
-        <p className={`${true ? "py-2" : "py-1"}`}>message</p>
+        <p className={`${true ? "py-2" : "py-1"}`}>{text.content}</p>
       </div>
     </div>
   );
 }
+
+ChatMessages.propTypes = {
+  text: PropTypes.object.isRequired,
+};
 
 export default ChatMessages;
