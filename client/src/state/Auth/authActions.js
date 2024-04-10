@@ -78,3 +78,20 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
+
+export const searchUsers = createAsyncThunk(
+  "auth/searchUsers",
+  async (query, { rejectWithValue }) => {
+    try{
+      const { data } = await api.get(
+        `${API_BASE_URL}/api/users/search?query=${query}`
+      );
+      console.log("Users Searched",data);
+      return data;
+    }
+    catch(error){
+      console.log(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

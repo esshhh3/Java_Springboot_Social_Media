@@ -6,8 +6,19 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import SearchChat from "../components/SearchChat";
 import UserChatCard from "../components/UserChatCard";
 import ChatMessages from "../components/ChatMessages";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllChats } from "../state/Message/message.action";
 
 function Message() {
+  const dispatch = useDispatch();
+  const { message, auth } = useSelector((state) => state);
+
+  
+  useEffect(()=>{
+    dispatch(getAllChats());
+  },[]);
+  
   function handleSelectImage(){
     console.log("image select...");
   }
@@ -15,7 +26,6 @@ function Message() {
   return (
     <div>
       <Grid container className="h-screen overflow-y-hidden">
-
         {/* Left Panel */}
         <Grid item xs={3} className="px-5">
           <div className="flex h-full justify-between space-x-2">
@@ -30,7 +40,9 @@ function Message() {
                 </div>
 
                 <div className="h-full space-y-4 mt-5 overflow-y-scroll hideScrollbar">
-                  <UserChatCard />
+                  {message.chats.map((chat) => (
+                    <UserChatCard chat={chat} key={chat.id}/>
+                  ))}
                 </div>
               </div>
             </div>
@@ -65,11 +77,24 @@ function Message() {
           {/* Message Input */}
           <div className="sticky bottom-0 border-l">
             <div className="flex py-5 items-center justify-center space-x-5">
-              <input type="text" className="bg-transparent border border-[#3b4054] rounded-full w-[90%] py-3 px-5" placeholder="Write your message..." />
+              <input
+                type="text"
+                className="bg-transparent border border-[#3b4054] rounded-full w-[90%] py-3 px-5"
+                placeholder="Write your message..."
+              />
               <div>
-                <input type="file" accept="image/*" onChange={handleSelectImage} className="hidden" id="image-input" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleSelectImage}
+                  className="hidden"
+                  id="image-input"
+                />
                 <label htmlFor="image-input">
-                  <AddPhotoAlternateIcon className="cursor-pointer" color="primary" />
+                  <AddPhotoAlternateIcon
+                    className="cursor-pointer"
+                    color="primary"
+                  />
                 </label>
               </div>
             </div>

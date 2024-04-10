@@ -1,8 +1,12 @@
 import { Avatar, Card, CardHeader, IconButton } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 
-function UserChatCard() {
+function UserChatCard({chat}) {
+  const { message, auth } = useSelector((state) => state);
+  
   return (
     <Card>
       <CardHeader
@@ -23,11 +27,15 @@ function UserChatCard() {
             <MoreHorizIcon />
           </IconButton>
         }
-        title="Sandip Kundu"
-        subheader="sandipkundu"
+        title={auth.user.id===chat.users[1].id?chat.users[0].fname+" "+chat.users[0].lname:chat.users[1].fname+" "+chat.users[1].lname}
+        subheader={auth.user.id===chat.users[1].id?"@"+chat.users[0].fname.toLowerCase()+"_"+chat.users[0].lname.toLowerCase():"@"+chat.users[1].fname.toLowerCase()+"_"+chat.users[1].lname.toLowerCase()}
       ></CardHeader>
     </Card>
   );
 }
+
+UserChatCard.propTypes = {
+  chat: PropTypes.object.isRequired,
+};
 
 export default UserChatCard;
