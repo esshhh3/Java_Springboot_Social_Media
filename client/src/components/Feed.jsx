@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux';
 
 // dummy array to iterate over
 const stories = [1, 2, 3, 4, 5];
-const posts = [1, 2, 3, 4, 5];
 
 function Feed() {
 

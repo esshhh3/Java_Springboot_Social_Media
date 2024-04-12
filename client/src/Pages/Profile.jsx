@@ -16,11 +16,11 @@ const tabs = [
   { value: "repost", name: "Repost" },
 ];
 
-const posts = [1,2,3,4,5];
 const reels = [1, 2, 3, 4, 5];
 const saved = [1, 2, 3, 4, 5];
 
 function Profile() {
+  const posts = useSelector((state) => state.post.posts);
   const { id } = useParams();
   console.log(id);
 
@@ -109,7 +109,7 @@ function Profile() {
                     className="border border-slate-100 rounded-md"
                     key={index}
                   >
-                    <PostCard />
+                    <PostCard post={post} />
                   </div>
                 ))}
               </div>
