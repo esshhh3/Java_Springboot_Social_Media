@@ -27,8 +27,8 @@ function UserChatCard({chat}) {
             <MoreHorizIcon />
           </IconButton>
         }
-        title={auth.user.id===chat.users[1].id?chat.users[0].fname+" "+chat.users[0].lname:chat.users[1].fname+" "+chat.users[1].lname}
-        subheader={auth.user.id===chat.users[1].id?"@"+chat.users[0].fname.toLowerCase()+"_"+chat.users[0].lname.toLowerCase():"@"+chat.users[1].fname.toLowerCase()+"_"+chat.users[1].lname.toLowerCase()}
+        title={auth.user?.id===chat.users[1].id?chat.users[0].fname+" "+chat.users[0].lname:chat.users[1].fname+" "+chat.users[1].lname}
+        subheader={auth.user?.id===chat.users[1].id?"@"+chat.users[0].fname.toLowerCase()+"_"+chat.users[0].lname.toLowerCase():"@"+chat.users[1].fname.toLowerCase()+"_"+chat.users[1].lname.toLowerCase()}
       ></CardHeader>
     </Card>
   );
