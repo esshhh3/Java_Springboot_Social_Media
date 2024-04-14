@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 @AllArgsConstructor
-@Component
+@Controller
 public class RealTimeChat {
     @Autowired
     private final SimpMessagingTemplate simpMessagingTemplate;
