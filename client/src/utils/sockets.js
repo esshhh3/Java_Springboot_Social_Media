@@ -26,7 +26,7 @@ const WebSocketService = {
   },
 
   sendMessage: (destination, message) => {
-    if (WebSocketService.stompClient !== null) {
+    if (WebSocketService.stompClient !== null && message !== null) {
       WebSocketService.stompClient.send(destination, {}, JSON.stringify(message));
     }
   },

@@ -6,10 +6,11 @@ export const createMessage = createAsyncThunk(
   async (reqData, { rejectWithValue }) => {
     try {
       const { data } = await api.post(
-        `${API_BASE_URL}/api/messages/chat/${reqData.chatId}`,
-        reqData
+        `${API_BASE_URL}/api/messages/chat/${reqData.message.chatId}`,
+        reqData.message
       );
       console.log("Message Created", data);
+      reqData.sendMessageToServer(data);
       return data;
     } catch (error) {
       console.log(error.response.data);

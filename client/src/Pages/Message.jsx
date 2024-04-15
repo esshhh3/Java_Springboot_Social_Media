@@ -1,4 +1,4 @@
-import {Avatar, Grid, IconButton} from "@mui/material";
+import { Avatar, Grid, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CallIcon from "@mui/icons-material/Call";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
@@ -8,50 +8,87 @@ import UserChatCard from "../components/UserChatCard";
 import ChatMessages from "../components/ChatMessages";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createMessage, getAllChats } from "../state/Message/message.action";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { uploadToCloudinary } from "../utils/uploadToCloudinary";
+import WebSocketService from "../utils/sockets";
 
 function Message() {
   const [currentChat, setCurrentChat] = useState();
   const [messages, setMessages] = useState([]);
   const [selectedImage, setSelectedImage] = useState();
   const [loading, setLoading] = useState(false);
+  const chatContainerRef = useRef(null);
 
   const dispatch = useDispatch();
   const { message, auth } = useSelector((state) => state);
 
-  
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getAllChats());
-  },[]);
-  
-  async function handleSelectImage(e){
+    WebSocketService.initializeWebSocketConnection();
+  }, [dispatch]);
+
+
+
+  async function handleSelectImage(e) {
     console.log("image select...");
     setLoading(true);
-    const imgUrl = await uploadToCloudinary(e.target.files[0],"image");
+    const imgUrl = await uploadToCloudinary(e.target.files[0], "image");
     setSelectedImage(imgUrl);
     setLoading(false);
   }
 
-  function handleCreateMessage(value){
+  function handleCreateMessage(value) {
     const message = {
       chatId: currentChat?.id,
       content: value,
       image: selectedImage,
     };
-    dispatch(createMessage(message));
+    setMessages([...messages, message]);
+    dispatch(createMessage({message,sendMessageToServer}));
+    setSelectedImage(null);
   }
 
   // to handle the render after new text message
-  useEffect(()=>{
-    if(message.message){
-      setMessages([...messages,message.message]);
+  useEffect(() => {
+    if (message.message) {
+      setMessages([...messages, message.message]);
     }
-  },[message.message]);
-  
+  }, [message.message]);
+
+  useEffect(() => {
+    if (auth.user && currentChat) {
+      const subscription = WebSocketService.subscribeToTopic(
+        `/user/${currentChat.id}/private`,
+        (response) => {
+          const receivedMessage = JSON.parse(response.body);
+          console.log("Message recieved from websocket", receivedMessage);
+          setMessages([...messages, receivedMessage]);
+        }
+      );
+
+      // cleanup function
+      // return () => {
+      //   subscription.unsubscribe();
+      // };
+    }
+  }, [currentChat, auth.user, messages]);
+
+  function sendMessageToServer(newMessage) {
+    WebSocketService.sendMessage(
+      `/app/chat/${currentChat?.id.toString()}`,
+      newMessage
+    );
+  }
+
+  useEffect(() => {
+    if(chatContainerRef.current){
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div>
       <Grid container className="h-screen overflow-y-hidden">
@@ -115,7 +152,7 @@ function Message() {
               </div>
 
               {/* Messages */}
-              <div className="hideScrollbar overflow-y-scroll h-[82vh] px-2 space-y-5 py-5">
+              <div ref={chatContainerRef} className="hideScrollbar overflow-y-scroll h-[82vh] px-2 space-y-5 py-5">
                 {messages.map((message, index) => (
                   <ChatMessages key={index} text={message} />
                 ))}
