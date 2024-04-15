@@ -12,6 +12,8 @@ import { getUserProfile } from "./state/Auth/authActions";
 import { useEffect } from "react";
 import Feed from "./components/Feed";
 import { getAllPosts } from "./state/Post/post.action";
+import { ThemeProvider } from "@mui/material";
+import { DarkTheme } from "./theme/DarkTheme";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,10 +27,16 @@ function App() {
   console.log(user)
   
   return (
-    <Routes>
-      <Route index path="/*" element={user? <HomePage/> : <Authentication />} />
-      <Route path="/message" element={<Message />} />
-    </Routes>
+    <ThemeProvider theme={DarkTheme}>
+      <Routes>
+        <Route
+          index
+          path="/*"
+          element={user ? <HomePage /> : <Authentication />}
+        />
+        <Route path="/message" element={<Message />} />
+      </Routes>
+    </ThemeProvider>
   );
 }
 

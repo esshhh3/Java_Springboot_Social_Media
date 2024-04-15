@@ -76,3 +76,8 @@ button:focus-visible {
   width: 0px;
   display: none;
 }
+
+body{
+  background: #212534;
+  color: rgb(88, 199, 250);
+}
