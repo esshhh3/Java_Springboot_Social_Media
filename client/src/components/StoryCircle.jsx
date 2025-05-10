@@ -1,15 +1,15 @@
-import {Avatar} from '@mui/material';
+import { Avatar } from "@mui/material";
 
-function StoryCircle() {
+function StoryCircle({ user }) {
   return (
-    <div>
-      <div className="flex flex-col items-center mr-4 cursor-pointer">
+    <div className="flex flex-col items-center mx-2">
+      <div className="bg-gradient-to-tr from-pink-500 via-orange-400 to-yellow-400 p-1 rounded-full">
         <Avatar
-          sx={{ width: "5rem", height: "5rem" }}
-          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={user.avatar}
+          sx={{ width: 56, height: 56, border: "3px solid white" }}
         />
-        <p>Helen</p>
       </div>
+      <span className="text-xs text-black mt-1 w-16 truncate text-center">{user.username}</span>
     </div>
   );
 }

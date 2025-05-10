@@ -1,5 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 import { loginUser, registerUser, getUserProfile, updateUserProfile, searchUsers } from './Auth/authActions';
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './Auth/authSlice';
+import postReducer from './Post/postSlice';
+import reelsReducer from './Reels/reels.slice';
 
 const initialState = {
     jwt: null,
@@ -39,7 +43,7 @@ const authSlice = createSlice({
           return { ...state, loading: false, user: action.payload, error: null };
         });
         builder.addCase(getUserProfile.rejected, (state, action) => {
-          return { ...state, loading: false, error: action.payload };
+          return { ...state, loading: false, user: null, error: action.payload };
         });
         builder.addCase(updateUserProfile.pending, (state, action) => {
           return { ...state, loading: true, error: null };
@@ -60,6 +64,14 @@ const authSlice = createSlice({
           return { ...state, loading: false, error: action.payload };
         });
     },
+});
+
+export const store = configureStore({
+    reducer: {
+        auth: authReducer,
+        post: postReducer,
+        reels: reelsReducer
+    }
 });
 
 export default authSlice.reducer;

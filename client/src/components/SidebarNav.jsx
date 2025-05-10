@@ -14,19 +14,24 @@ export const navigationMenu = [
     path: "/",
   },
   {
+    title: "Feed",
+    icon: <HomeRoundedIcon />,
+    path: "/home/feed",
+  },
+  {
     title: "Reels",
     icon: <ExploreRoundedIcon />,
     path: "/home/reels",
   },
   {
-    title: "Create Reels",
+    title: "Upload",
     icon: <ControlPointRoundedIcon />,
-    path: "/home/create-reels",
+    path: "/home/upload",
   },
   {
     title: "Notifications",
     icon: <NotificationsRoundedIcon />,
-    path: "/",
+    path: "/home/notifications",
   },
   {
     title: "Message",

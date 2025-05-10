@@ -1,10 +1,9 @@
-
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { TextField, Button } from "@mui/material";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../state/Auth/authActions";
-import { useNavigate, redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   email: "",
@@ -22,22 +21,21 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       console.log("handle submit", values);
       const response = await dispatch(loginUser({ data: values }));
 
-      // Check if login was successful and token was generated
       if (response.payload.token) {
-        // Navigate to home page
-        return redirect("/home/feed");
+        navigate("/home/feed");
       } else {
-        // Handle unsuccessful login
-        console.log("Login unsuccessful");
+        setErrors({ submit: "Login failed. Please check your credentials." });
       }
     } catch (error) {
-      // Handle error
-      console.error("Error:", error);
+      console.error("Login error:", error);
+      setErrors({ submit: error.message || "Login failed. Please try again." });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -46,54 +44,61 @@ function Login() {
       <Formik
         onSubmit={handleSubmit}
         initialValues={initialValues}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
       >
-        <Form className="space-y-5">
-          <div className="space-y-5">
-            <div>
-              <Field
-                as={TextField}
-                name="email"
-                placeholder="Email here"
-                type="email"
-                variant="outlined"
-                fullWidth
-              />
+        {({ isSubmitting, errors }) => (
+          <Form className="space-y-5">
+            <div className="space-y-5">
+              <div>
+                <Field
+                  as={TextField}
+                  name="email"
+                  placeholder="Email here"
+                  type="email"
+                  variant="outlined"
+                  fullWidth
+                />
 
-              <ErrorMessage
-                name="email"
-                component={"div"}
-                className="text-red-500"
-              />
+                <ErrorMessage
+                  name="email"
+                  component={"div"}
+                  className="text-red-500"
+                />
+              </div>
+
+              <div>
+                <Field
+                  as={TextField}
+                  name="password"
+                  placeholder="Password here"
+                  type="password"
+                  variant="outlined"
+                  fullWidth
+                />
+
+                <ErrorMessage
+                  name="password"
+                  component={"div"}
+                  className="text-red-500"
+                />
+              </div>
+
+              {errors.submit && (
+                <div className="text-red-500">{errors.submit}</div>
+              )}
             </div>
-
-            <div>
-              <Field
-                as={TextField}
-                name="password"
-                placeholder="Password here"
-                type="password"
-                variant="outlined"
-                fullWidth
-              />
-
-              <ErrorMessage
-                name="password"
-                component={"div"}
-                className="text-red-500"
-              />
-            </div>
-          </div>
-          <Button
-            sx={{ padding: ".8rem 0rem" }}
-            fullWidth
-            type="submit"
-            variant="contained"
-            color="primary"
-          >
-            Login
-          </Button>
-        </Form>
+            <Button
+              sx={{ padding: ".8rem 0rem" }}
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Logging in..." : "Login"}
+            </Button>
+          </Form>
+        )}
       </Formik>
 
       <div className="flex gap-2 items-center justify-center pt-5">

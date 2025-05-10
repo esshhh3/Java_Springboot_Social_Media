@@ -77,7 +77,17 @@ button:focus-visible {
   display: none;
 }
 
+body {
+  background: #fff;
+  color: #181c2f;
+}
+
+/* Remove or comment out the old background and color lines if present */
+/*
 body{
   background: #212534;
   color: rgb(88, 199, 250);
 }
+*/
+
+/* Use Tailwind classes like bg-gray-900, bg-gray-800, text-white for nav, sidebar, and cards in your components. */

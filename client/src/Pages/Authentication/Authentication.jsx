@@ -4,7 +4,7 @@ import React from 'react';
 import Login from "./Login";
 import Register from "./Register";
 import {useSelector} from "react-redux";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useLocation} from "react-router-dom";
 import {Outlet} from "react-router-dom";
 
 function Authentication() {
@@ -30,11 +30,10 @@ function Authentication() {
                 </p>
               </div>
 
-              {/* <Outlet /> */}
               <Routes>
-                <Route index element={<Login />} />
-                <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="*" element={<Login />} />
               </Routes>
             </Card>
           </div>
