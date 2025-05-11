@@ -42,8 +42,7 @@ function App() {
         {!user ? (
           <>
             <Route path="/home" element={<HomePage />} />
-            <Route path="/login" element={<Authentication />} />
-            <Route path="*" element={<Authentication />} />
+        
           </>
         ) : (
           <>
