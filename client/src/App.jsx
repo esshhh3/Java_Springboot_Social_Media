@@ -18,6 +18,7 @@ import { DarkTheme } from "./theme/DarkTheme";
 function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
@@ -32,27 +33,34 @@ function App() {
     return <div>Loading...</div>;
   }
 
+  console.log("User:", user);
+
+
   return (
     <ThemeProvider theme={DarkTheme}>
       <Routes>
-        <Route path="/register" element={<Authentication />} />
-        <Route path="/login" element={<Authentication />} />
+        {!user ? (
+          <>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/login" element={<Authentication />} />
+            <Route path="*" element={<Authentication />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Navigate to="/home" />} />
 
-        <Route path="/" element={<Navigate to="/home" />} />
-        <Route path="/home" element={<HomePage />}>
-          <Route path="feed" element={<Feed />} />
-          <Route path="reels" element={<Reels />} />
-          <Route path="upload" element={<Upload />} />
-          <Route path="profile/:id" element={<Profile />} />
-          <Route path="notifications" element={<Notifications />} />
-        </Route>
+            <Route path="/home" element={<HomePage />}>
+              <Route path="feed" element={<Feed />} />
+              <Route path="reels" element={<Reels />} />
+              <Route path="upload" element={<Upload />} />
+              <Route path="profile/:id" element={<Profile />} />
+              <Route path="notifications" element={<Notifications />} />
+            </Route>
 
-        <Route path="/message" element={<Message />} />
-
-        <Route path="*" element={<Navigate to="/home" />} />
+            <Route path="/message" element={<Message />} />
+          </>
+        )}
       </Routes>
     </ThemeProvider>
   );
 }
-
-export default App;
