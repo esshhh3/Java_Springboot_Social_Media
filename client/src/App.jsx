@@ -1,4 +1,4 @@
-// App.jsx
+ // App.jsx
 
 import Authentication from "./Pages/Authentication/Authentication";
 import HomePage from "./Pages/HomePage";
@@ -18,7 +18,6 @@ import { DarkTheme } from "./theme/DarkTheme";
 function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
@@ -33,33 +32,24 @@ function App() {
     return <div>Loading...</div>;
   }
 
-  console.log("User:", user);
-
-
   return (
     <ThemeProvider theme={DarkTheme}>
       <Routes>
-        {!user ? (
-          <>
-            <Route path="/register" element={<Authentication />} />
-            <Route path="/login" element={<Authentication />} />
-            <Route path="*" element={<Authentication />} />
-          </>
-        ) : (
-          <>
-            <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/register" element={<Authentication />} />
+        <Route path="/login" element={<Authentication />} />
 
-            <Route path="/home" element={<HomePage />}>
-              <Route path="feed" element={<Feed />} />
-              <Route path="reels" element={<Reels />} />
-              <Route path="upload" element={<Upload />} />
-              <Route path="profile/:id" element={<Profile />} />
-              <Route path="notifications" element={<Notifications />} />
-            </Route>
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/home" element={<HomePage />}>
+          <Route path="feed" element={<Feed />} />
+          <Route path="reels" element={<Reels />} />
+          <Route path="upload" element={<Upload />} />
+          <Route path="profile/:id" element={<Profile />} />
+          <Route path="notifications" element={<Notifications />} />
+        </Route>
 
-            <Route path="/message" element={<Message />} />
-          </>
-        )}
+        <Route path="/message" element={<Message />} />
+
+        <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
     </ThemeProvider>
   );
