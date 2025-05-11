@@ -54,6 +54,10 @@ function App() {
               <Route path="upload" element={<Upload />} />
               <Route path="profile/:id" element={<Profile />} />
               <Route path="notifications" element={<Notifications />} />
+             <Route path="/register" element={<Authentication />} />
+            <Route path="/login" element={<Authentication />} />
+            <Route path="*" element={<Authentication />} />
+          </>
             </Route>
 
             <Route path="/message" element={<Message />} />
